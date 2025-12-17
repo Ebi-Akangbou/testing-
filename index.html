@@ -23,11 +23,11 @@
   <form action="https://submify.vercel.app/ultimateu036@gmail.com" method="post" class="contact__form" id="form" enctype="multipart/form-data">
     
     <input type="hidden" name="_captcha" value="false">                        
-    <input type="hidden" name="_next" value="https://ebi-akangbou.github.io/testing-/thank.html">   
+    <input type="hidden" name="_next" value="http://127.0.0.1:5500/thank.html">   
                           
 <input type="hidden" name="_cc" value="ultimateu036@gmail.com">
 <input id="subject" name="_subject" value="subject" style="display: none;">  
-<input type="hidden" name="redirect" value="https://ebi-akangbou.github.io/testing-/thank.html">
+<input type="hidden" name="redirect" value="http://127.0.0.1:5500/thank.html">
 <fieldset class="contact__fieldset">
     <legend class="offscreen">Send Us A Message</legend>
     <label for="firstName" class="contact__label"> First Name</label>
@@ -55,16 +55,17 @@
     <p class="errors"></p>
 
     <div>
-      <label for="state" class="contact__label">State</label>
-      <br>
-      <input type="text" name=" state" id="state"
-      autocomplete="on" placeholder="State" class="address__input">
-      <p class="addErrors"></p>
-
+      
       <label for="city" class="contact__label">City</label>
       <br>
-      <input type="text" name=" city" id="city"
+      <input type="text" name="city" id="city"
       autocomplete="on" placeholder="City" class="address__input">
+      <p class="addErrors"></p>
+
+      <label for="state" class="contact__label">State</label>
+      <br>
+      <input type="text" name="state" id="state"
+      autocomplete="on" placeholder="State" class="address__input">
       <p class="addErrors"></p>
 
       <label for="zipCode" class="contact__label">Zip Code</label>
@@ -123,5 +124,3 @@
       <script src="index.js"></script>
 </body>
 </html>
-
-
