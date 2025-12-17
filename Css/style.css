@@ -170,10 +170,6 @@ footer{
     display: flex;
     font-size: 18px;
     place-content: center;
-    /* position: absolute;
-    bottom: 0;
-    width: 100%;
-     */
     
 }
 
@@ -234,7 +230,12 @@ img.top-left {
 .hero{
     transform: translateY(15px);
 }
+@media screen and (min-width: 760px){
+    footer{
 
+        margin-top: 280px;
+    }
+}
 @media screen and (min-width:1200px){
     body{
         display: grid;
